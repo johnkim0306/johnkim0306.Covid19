@@ -4,7 +4,7 @@ export default class CountryPicker extends Component {
     render() {
         return (
             <div>
-                <h1>hii</h1>
+                <h1></h1>
             </div>
         )
     }
