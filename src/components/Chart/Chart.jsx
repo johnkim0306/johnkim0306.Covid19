@@ -16,13 +16,6 @@ const Chart = ({data: {confirmed, deaths, recovered}, country}) => {
   //console.log(confirmed)
 
 
-//  useEffect(() => {
-//    // adding listeners everytime props.x changes
-//    return () => {
-//        // removing the listener when props.x changes
-//    }
-// }, [props.x])
-
   const lineChart = (
     dailyData.length ? (
       <Line
@@ -47,27 +40,6 @@ const Chart = ({data: {confirmed, deaths, recovered}, country}) => {
   );
 
   console.log(confirmed, deaths, recovered )
-
-//
-//const PieChart = {
-//  labels: ['Confirmed', 'Deaths', 'Recovered'],
-//  datasets: [{
-//    data: [300,500,100],
-//		backgroundColor: [
-//      '#FF6384',
-//      '#36A2EB',
-//      '#FFCE56'
-//      ],
-//		hoverBackgroundColor: [
-//		'#FF6384',
-//		'#36A2EB',
-//		'#FFCE56'
-//		]
-//  }
-//  ],  
-//
-//}
-
 
 const PieChart2 = (
   confirmed ? (

@@ -9,9 +9,9 @@ export const fetchData = async (country) => {
     changeableUrl = `${url}/countries/${country}`;
   }
 
+
   try {
     const { data: { confirmed, recovered, deaths, lastUpdate } } = await axios.get(changeableUrl);
-
     return { confirmed, recovered, deaths, lastUpdate };
   } catch (error) {
     return error;
@@ -41,6 +41,15 @@ export const fetchCountries = async () => {
     const { data: { countries } } = await axios.get(`${url}/countries`);
 
     return countries.map((country) => country.name);
+  } catch (error) {
+    return error;
+  }
+};
+
+export const fetchConfirmed = async () => {
+  try {
+    const data = await axios.get(`${url}/confirmed`);
+    return data;
   } catch (error) {
     return error;
   }
