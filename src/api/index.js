@@ -46,6 +46,9 @@ export const fetchCountries = async () => {
   }
 };
 
+
+
+
 export const fetchConfirmed = async () => {
   try {
     const data = await axios.get(`${url}/confirmed`);
