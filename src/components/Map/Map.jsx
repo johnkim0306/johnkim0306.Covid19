@@ -119,6 +119,27 @@ const Map = () => {
 
     }
 
+    function buttonDescription() {
+        alert("hey");
+        let html = '';
+        html = `
+            <table>
+                <thead>
+                    <tr>
+                    <th>이름</th>
+                    <th>나이</th>
+                    <th>성별</th>
+                    <th>100M 달리기</th>
+                    <th>윗몸 일으키기</th>
+                    </tr>
+                </thead>
+            </table>
+        `;
+        console.log("asdf")
+        return {html};
+    }
+    
+
     /*
     function long_lat_null_check(store, i) {
         if (store.lat != null && store.long != null) {
@@ -137,6 +158,10 @@ const Map = () => {
 
     }
     */
+
+
+    
+
     return (
         <div>
         <ReactMapGL
@@ -204,7 +229,7 @@ const Map = () => {
               latitude={latitude}
               longitude={longitude}
             >
-              <button className="crime-marker">
+              <button onClick={buttonDescription} className="crime-marker">
                 <img src= {logo}  alt="crime doesn't pay" />
               </button>
             </Marker>
@@ -217,5 +242,5 @@ const Map = () => {
     );
 }
 
+
 export default Map;
-//<img src= {require("/1.jpg")} alt="crime doesn't pay" />
