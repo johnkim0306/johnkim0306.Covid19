@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/johnkim0306.Covid19/static/css/main.966c2c1f.chunk.css",
+    "main.js": "/johnkim0306.Covid19/static/js/main.ec5582e9.chunk.js",
+    "main.js.map": "/johnkim0306.Covid19/static/js/main.ec5582e9.chunk.js.map",
+    "runtime-main.js": "/johnkim0306.Covid19/static/js/runtime-main.286a91e8.js",
+    "runtime-main.js.map": "/johnkim0306.Covid19/static/js/runtime-main.286a91e8.js.map",
+    "static/js/2.8c8eff29.chunk.js": "/johnkim0306.Covid19/static/js/2.8c8eff29.chunk.js",
+    "static/js/2.8c8eff29.chunk.js.map": "/johnkim0306.Covid19/static/js/2.8c8eff29.chunk.js.map",
+    "index.html": "/johnkim0306.Covid19/index.html",
+    "precache-manifest.c6bcd604af6491cd1e06c6e0b103d814.js": "/johnkim0306.Covid19/precache-manifest.c6bcd604af6491cd1e06c6e0b103d814.js",
+    "service-worker.js": "/johnkim0306.Covid19/service-worker.js",
+    "static/css/main.966c2c1f.chunk.css.map": "/johnkim0306.Covid19/static/css/main.966c2c1f.chunk.css.map",
+    "static/js/2.8c8eff29.chunk.js.LICENSE.txt": "/johnkim0306.Covid19/static/js/2.8c8eff29.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.286a91e8.js",
+    "static/js/2.8c8eff29.chunk.js",
+    "static/css/main.966c2c1f.chunk.css",
+    "static/js/main.ec5582e9.chunk.js"
+  ]
+}
