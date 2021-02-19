@@ -1,4 +1,5 @@
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 
 const url = 'https://covid19.mathdro.id/api';
 
@@ -53,6 +54,28 @@ export const fetchConfirmed = async () => {
   try {
     const data = await axios.get(`${url}/confirmed`);
     return data;
+  } catch (error) {
+    return error;
+  }
+};
+
+
+export const FetchCountriesWithFlag = async () => {
+  const [tableData, setTableData] = useState([]);
+  try {
+    const data = await axios.get("https://disease.sh/v3/covid-19/countries")
+    .then((response) => response.json())
+    .then((data) => {
+      const countries = data.map((country) =>(
+        {
+          name: country.country,
+          value: country.countryInfo.iso2,
+        }
+      ))
+    })
+    let sortedData = sortData(data);
+    setTableData(sortedData);
+    return tableData;
   } catch (error) {
     return error;
   }

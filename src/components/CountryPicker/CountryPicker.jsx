@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NativeSelect, FormControl } from '@material-ui/core';
-
-import { fetchCountries } from '../../api';
-
+import { FetchCountries } from '../../api';
 import styles from './CountryPicker.module.css';
 
 const Countries = ({ handleCountryChange }) => {
@@ -10,9 +8,9 @@ const Countries = ({ handleCountryChange }) => {
 
   useEffect(() => {
     const fetchAPI = async () => {
-      setCountries(await fetchCountries());
+      setCountries(await FetchCountries());
     };
-
+  
     fetchAPI();
   }, []);
 

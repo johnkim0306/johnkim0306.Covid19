@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef  } from "react";
-import ReactMapGL, { NavigationControl, FlyToInterpolator, Marker, Popup } from "react-map-gl";
+import ReactMapGL, { NavigationControl, FlyToInterpolator, Marker, Popup, Cirle } from "react-map-gl";
+import { Card, CardContent, Typography, Grid, Container, CardActions, Button, Popper, makeStyles  } from '@material-ui/core';
 import { fetchConfirmed } from '../../api/';
 import styles from './Map.css';
 import useSupercluster from "use-supercluster";
 import useSwr from "swr";
 import logo from './1.jpg';
-
+import logo2 from './coronavirus2.jpg';
 
 
 const mapbox_token = "pk.eyJ1Ijoiam9obmswMzA2IiwiYSI6ImNrZGhtcWdjbTAxN2wyeGs2djEwdmp4MmkifQ.10oHb3YnNenJtaPaBYcVIg"
@@ -30,23 +31,43 @@ const Map = () => {
     const url = 'https://covid19.mathdro.id/api/confirmed';
     const { data, error } = useSwr(url, { fetcher });
     const confirmedData2 = data && !error ? data.slice(0,500) : [];
-    console.log(confirmedData2);
 
+
+    //---- Popper
+    const useStyles = makeStyles((theme) => ({
+        paper: {
+            border: '1px solid',
+            padding: theme.spacing(1),
+            backgroundColor: theme.palette.background.paper,
+        },
+    }));
+
+    const classes = useStyles();
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(anchorEl ? null : event.currentTarget);
+    };
+
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popper' : undefined;
+
+    //----------------
 
 
     //const confirmedData2 = confirmedData.slice(0,100)
-    const points = confirmedData2.map(crime => ({
+    const points = confirmedData2.map(corona => ({
         type: "Feature",
-        properties: { cluster: false, crimeId: crime.uid, confirmed: crime.confirmed},
+        properties: { cluster: false, coronaId: corona.uid, confirmed: corona.confirmed, deaths: corona.deaths, recovered: corona.recovered, combinedKey: corona.combinedKey},
         geometry: {
           type: "Point",
           coordinates: [
-            parseFloat(crime.long),
-            parseFloat(crime.lat)
+            parseFloat(corona.long),
+            parseFloat(corona.lat)
           ]
         }
     }));
-    console.log(points);
+    //console.log(points);
 
     const bounds = mapRef.current
         ? mapRef.current
@@ -63,46 +84,14 @@ const Map = () => {
         options: { radius: 75, maxZoom: 20 }
     });
 
-    console.log(clusters)
-    console.log(points);
+    //console.log(clusters)
+    //console.log(points);
 
 
-
-/*
-    useEffect(() => {
-        const fetchApi = async () => {
-            const {data} = await fetchConfirmed();
-            setConfirmed(data)
-        }
-        fetchApi();
-    }, []);
-*/
 
     useEffect(() => {
         getA();
     }, []);
-
-    /*
-    if(!confirmedData2) {
-        return 'Loading...';
-    }
-
-    const sweeterArray = confirmedData.map(sweetItem => {
-        return sweetItem.long
-    })
-    */
-   /*
-    const fetchApi = async () => {
-        const {data} = await fetchConfirmed();
-        setConfirmed(data)
-    }
-    */
-
-    /*
-    const fetchDataWithSwr = async () => {
-         const { data, error } = useSwr(url, { fetcher });
-    }
-    */
 
     async function getA() {
         try {
@@ -119,49 +108,6 @@ const Map = () => {
 
     }
 
-    function buttonDescription() {
-        alert("hey");
-        let html = '';
-        html = `
-            <table>
-                <thead>
-                    <tr>
-                    <th>이름</th>
-                    <th>나이</th>
-                    <th>성별</th>
-                    <th>100M 달리기</th>
-                    <th>윗몸 일으키기</th>
-                    </tr>
-                </thead>
-            </table>
-        `;
-        console.log("asdf")
-        return {html};
-    }
-    
-
-    /*
-    function long_lat_null_check(store, i) {
-        if (store.lat != null && store.long != null) {
-            return (
-                <Marker
-                    key={i}
-                    latitude={parseFloat(store.lat)}
-                    longitude={parseFloat(store.long)}
-                >
-                <button
-                    className="btn-marker"
-                />
-                </Marker>
-            )
-        }
-
-    }
-    */
-
-
-    
-
     return (
         <div>
         <ReactMapGL
@@ -177,63 +123,76 @@ const Map = () => {
         >
 
         {clusters.map(cluster => {
-          const [longitude, latitude] = cluster.geometry.coordinates;
-          const {
-            cluster: isCluster,
-            point_count: pointCount
-          } = cluster.properties;
-          console.log(cluster);
+            const [longitude, latitude] = cluster.geometry.coordinates;
+            const confirmed = cluster.properties.confirmed;
+            const deaths = cluster.properties.deaths;
+            const recovered = cluster.properties.recovered;
+            const combinedKey = cluster.properties.combinedKey;
+            const {
+                cluster: isCluster,
+                point_count: pointCount
+            } = cluster.properties;
 
-        if (isCluster) {
-            console.log("Hello")
+            if (isCluster) {
+                return (
+                    <Marker
+                    key={`cluster-${cluster.id}`}
+                    latitude={latitude}
+                    longitude={longitude}
+                    >
+                        <div
+                        className="cluster-marker"
+                        style={{
+                            width: `${8 + (pointCount / 4) * 6}px`,
+                            height: `${8 + (pointCount / 4) * 6}px`
+                        }}
+                        onClick={() => {
+                            const expansionZoom = Math.min(
+                            supercluster.getClusterExpansionZoom(cluster.id),
+                            20
+                            );
+
+                            setViewport({
+                                ...viewport,
+                                latitude,
+                                longitude,
+                                zoom: expansionZoom,
+                                transitionInterpolator: new FlyToInterpolator({
+                                    speed: 2
+                                }),
+                                transitionDuration: "auto"
+                                });
+                            }}
+                        >
+                            {pointCount}
+                        </div>
+                    </Marker>
+                );
+            }
+
             return (
                 <Marker
-                key={`cluster-${cluster.id}`}
+                key={`crime-${cluster.properties.coronaId}`}
                 latitude={latitude}
                 longitude={longitude}
                 >
-                    <div
-                    className="cluster-marker"
-                    style={{
-                        width: `${5 + (pointCount / 7) * 5}px`,
-                        height: `${5 + (pointCount / 7) * 5}px`
-                    }}
-                    onClick={() => {
-                        const expansionZoom = Math.min(
-                        supercluster.getClusterExpansionZoom(cluster.id),
-                        20
-                        );
+                <button onClick={handleClick} className="crime-marker">
+                    <img src= {logo2}  alt="crime doesn't pay" />
+                </button>
 
-                        setViewport({
-                            ...viewport,
-                            latitude,
-                            longitude,
-                            zoom: expansionZoom,
-                            transitionInterpolator: new FlyToInterpolator({
-                                speed: 2
-                            }),
-                            transitionDuration: "auto"
-                            });
-                        }}
-                    >
-                        {pointCount}
+                
+
+                
+                <Popper id={id} open={open} anchorEl={anchorEl}>
+                    <div className={classes.paper}>
+                        <Typography color="textSecondary">{combinedKey}</Typography>
+                        <Typography variant="body2" component="p">Infected: {confirmed}</Typography>
+                        <Typography variant="body2" component="p">Death: {deaths}</Typography>
+                        <Typography variant="body2" component="p">Recovered: {recovered}</Typography>
                     </div>
+                </Popper>
                 </Marker>
             );
-        }
-
-        return (
-
-            <Marker
-              key={`crime-${cluster.properties.crimeId}`}
-              latitude={latitude}
-              longitude={longitude}
-            >
-              <button onClick={buttonDescription} className="crime-marker">
-                <img src= {logo}  alt="crime doesn't pay" />
-              </button>
-            </Marker>
-        );
 
         })}
 

@@ -39,7 +39,7 @@ const Chart = ({data: {confirmed, deaths, recovered}, country}) => {
     ) : null
   );
 
-  console.log(confirmed, deaths, recovered )
+  //console.log(confirmed, deaths, recovered )
 
 const PieChart2 = (
   confirmed ? (
@@ -64,15 +64,6 @@ const PieChart2 = (
     />
   ) : null
 );
-
-
-
-
-
-    //  <Pie data = {PieChart} />
-    //  {lineChart}
-    // {country ? <Pie data = {PieChart} /> : lineChart }
-
   return (
     <div className={styles.container}>
       {country ? PieChart2 : lineChart }
