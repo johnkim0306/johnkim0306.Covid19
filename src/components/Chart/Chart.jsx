@@ -13,7 +13,7 @@ const Chart = ({data: {confirmed, deaths, recovered}, country}) => {
 
     fetchApi();
   }, [])
-  //console.log(confirmed)
+  console.log(confirmed)
 
 
   const lineChart = (

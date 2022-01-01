@@ -10,7 +10,6 @@ export const fetchData = async (country) => {
     changeableUrl = `${url}/countries/${country}`;
   }
 
-
   try {
     const { data: { confirmed, recovered, deaths, lastUpdate } } = await axios.get(changeableUrl);
     return { confirmed, recovered, deaths, lastUpdate };
@@ -73,8 +72,8 @@ export const FetchCountriesWithFlag = async () => {
         }
       ))
     })
-    let sortedData = sortData(data);
-    setTableData(sortedData);
+    //let sortedData = sortData(data);
+    setTableData(data);
     return tableData;
   } catch (error) {
     return error;

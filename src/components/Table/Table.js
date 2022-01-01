@@ -1,24 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { fetchCountriesWithFlag } from '../../api/';
+import { fetchCountries } from '../../api';
 import "./Table.css";
 
 function Table() {
     const [dailyData, setDailyData] = useState([]);
+
     useEffect(() => {
       const fetchApi = async () => {
-        const fetchApi = await fetchCountriesWithFlag();
-        setDailyData(fetchApi);
+        setDailyData(await fetchCountries());
       }
+
 
       fetchApi();
     }, [])
 
+    console.log(dailyData)
+
+
     return (
         <div className="talbe">
             {dailyData.map((country) => (
-                <p>Hello, {country.country}</p>
+                <p>{country.country}</p>
             ))}
         </div>
+
 
     );
   }
